@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
-#include <fcntl.h> /*флажки чтения и записи*/
-#include <sys/types.h> /*определения типов*/
-#include <sys/stat.h> /*структура, возвращаемая stat*/
+#include <fcntl.h> /*read/write flags*/
+#include <sys/types.h> /*types definitions*/
+#include <sys/stat.h> /*the struct which stat returns*/
 #include "Oneguine_functions.h"
 
 size_t fsize (char* name)
@@ -11,12 +11,12 @@ size_t fsize (char* name)
     if (stat (name, &stbuf) == -1)
     {
         printf ("Error: can't get information about %s file\n", name);
-        return -1; // size_t, -1 is not in range
+        return 0;
     }
     if ((stbuf.st_mode & S_IFMT) == S_IFDIR)
     {
         printf ("Error: this is the directory!\n");
-        return -1;
+        return 0;
     }
     
     return stbuf.st_size;

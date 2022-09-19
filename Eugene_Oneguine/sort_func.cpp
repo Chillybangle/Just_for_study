@@ -26,16 +26,37 @@ static void swap_elems (void* elem1, void* elem2, size_t elem_size)
     
     char* elem1_char = (char*) elem1;
     char* elem2_char = (char*) elem2;
+    double* elem1_double = (double*) elem1;
+    double* elem2_double = (double*) elem2;
     
-    char temp = 0;
+    char temp_char = 0;
+    double temp_double = 0;
+    size_t double_size = sizeof (double);
     
     for (size_t i = 0; i < elem_size; i++)
     {
-        temp = *elem1_char;
-        *elem1_char = *elem2_char;
-        *elem2_char = temp;
-        elem1_char += 1;
-        elem2_char += 1;
+        if ((elem_size - i) > double_size)
+        {
+            temp_double = *elem1_double;
+            *elem1_double = *elem2_double;
+            *elem2_double = temp_double;
+            
+            elem1_double += 1;
+            elem2_double += 1;
+            elem1_char += double_size;
+            elem2_char += double_size;
+            
+            i += double_size - 1;
+        }
+        else
+        {
+            temp_char = *elem1_char;
+            *elem1_char = *elem2_char;
+            *elem2_char = temp_char;
+            
+            elem1_char += 1;
+            elem2_char += 1;
+        }
     }
 }
 

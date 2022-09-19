@@ -3,6 +3,8 @@
 #include <assert.h>
 #include "str_func.h"
 
+#ifndef ONEGUINE_FUNCTIONS
+#define ONEGUINE_FUNCTIONS
 struct str_pointer
 {
     char* p = NULL; //< string pointer
@@ -24,9 +26,11 @@ void failure ();
 
 int launching_function (char* name);
 
-int file_write (struct str_pointer* array_p);
+void file_write (FILE* sorted_file, struct str_pointer* array_p);
 
-int original_file_write (char* array, size_t size_of_elem, size_t nmemb);
+FILE* sorted_open ();
+
+int original_file_write (FILE* sorted_file, char* array, size_t size_of_elem, size_t nmemb);
 
 void bubble_sort (void* base, size_t nmemb, size_t size, int (*compar)(const void* a, const void* b));
 
@@ -36,4 +40,4 @@ int Strcmp_reversed_compar (const void* struct1, const void* struct2);
 
 size_t fsize (char* name);
 
-size_t strlen_my (char* s);
+#endif

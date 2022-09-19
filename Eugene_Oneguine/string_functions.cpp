@@ -11,7 +11,12 @@ size_t nstring_counter (const char* array)
     while (*array)
     {
         if (*array == '\n')
+        {
+            while (*(array + 1) == '\r' || *(array + 1) == '\n') //пропуск пустых строк
+                array++;
+            
             counter++;
+        }
         
         array++;
     }
@@ -19,7 +24,7 @@ size_t nstring_counter (const char* array)
     return counter;
 }
 
-int array_p_make (struct str_pointer* *array_of_pointers, char* array_text) // Игнорировать пустые строчки на этом этапе (не ктдать их в массив указателей)
+int array_p_make (struct str_pointer* *array_of_pointers, char* array_text, size_t nstrings) // Игнорировать пустые строчки на этом этапе (не ктдать их в массив указателей)
 {
     assert (array_text);
     
@@ -29,55 +34,43 @@ int array_p_make (struct str_pointer* *array_of_pointers, char* array_text) // �
         return FAIL;
     }
     
-    //printf ("\nMEOW\n%s\n", array_text);
-    
-    size_t nstrings = nstring_counter (array_text);
-    
     struct str_pointer* array_p = (struct str_pointer*) calloc (nstrings + 1, sizeof (struct str_pointer));
-    //array_p[nstrings] = {NULL, 0};
     
     int counter = 0;
-    //printf ("Живой перед циклом\n");
+    
     array_p[counter].p = array_text;
     counter++;
-    //printf ("%s\n", array_p[counter-1].p);
-    //printf ("I'm alive after printf\n");
-    //printf ("Значение в массиве указателей %p\n", array_p[counter - 1].p);
-    int i = 0;
     while ((counter < nstrings) && (*array_text))
     {
-        //printf ("Цикл провернулся %d раз\n", i);
         if (*array_text == '\n')
         {
+            while (*(array_text + 1) == '\r' || *(array_text + 1) == '\n') //skip empty strings 
+                array_text++;
+            
             array_p[counter].p = array_text + 1;
             counter++;
-            //printf ("-----Зашел в цикл counter = %u\n", counter);
-            //printf ("%s\n",array_p[counter - 1]);
         }
-        //printf ("\nmeow\n");
+        
         array_text++;
-        i++;
     }
-    //printf ("Вышел из цикла\n");
+    
     counter = 0;
     while (counter < nstrings - 1)
     {
         array_p[counter].size = array_p[counter + 1].p - array_p[counter].p;
         counter++;
     }
-    //printf ("Жив после вайл\n");
-    //printf ("pointer of counter %p\n", array_p[counter].p);
+    
     array_p[counter].size = strlen_my (array_p[counter].p);
     
     *array_of_pointers = array_p;
     
-    //printf ("Вышел из цикла\n");
     return OK;
 }
 
 int strcmp_my (char* string1, char* string2)
 {
-    while (*string1 == ' ') // isspace
+    while (*string1 == ' ')
         string1++;
     while (*string2 == ' ')
         string2++;
@@ -110,13 +103,7 @@ int strcmp_my_reversed (char* str1, size_t str1_size, char* str2, size_t str2_si
 {
     char* string1 = str1 + str1_size - 1;
     char* string2 = str2 + str2_size - 1;
-    //putchar (*string1);
-    //putchar ('\n');
-    //putchar (*string2);
-    //putchar ('\n');
-    
-    //printf ("size of 1 string: %d\nsize of 2 string: %d\n", str1_size, str2_size);
-    
+
     int difference = 0;
     while ((str1_size-- > 0) && (str2_size-- > 0))
     {
@@ -132,7 +119,7 @@ int strcmp_my_reversed (char* str1, size_t str1_size, char* str2, size_t str2_si
         }
         
         difference = *string1 - *string2;
-        //printf ("difference: %d\n", difference);
+        
         if (difference != 0)
             return difference;
         string1--;
@@ -183,6 +170,12 @@ static int is_punctuation (char symbol)
         case '\'':
         case '!':
         case '?':
+        case ' ':
+        case '}':
+        case '{':
+        case '[':
+        case ']':
+        case '_':
             return 1;
             break;
         default:
