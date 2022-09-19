@@ -4,10 +4,8 @@ void file_write (FILE* sorted_file, struct str_pointer* array_p)
 {
     for (long int i = 0; array_p[i].p != NULL; i++)
     {
-        //if (*(array_p[i].p) != '\r' && *(array_p[i].p) != '\n')
             fputs_my (array_p[i].p, sorted_file);
     }
-    //fprintf (sorted_file, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAnother sort\n");
 }
 
 FILE* sorted_open ()
