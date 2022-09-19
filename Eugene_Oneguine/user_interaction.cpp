@@ -1,4 +1,5 @@
 #include "Oneguine_functions.h"
+#include <string.h>
 
 void get_file_name(char* name)
 {
@@ -9,8 +10,7 @@ void get_file_name(char* name)
     while (fgets (name, max_size, stdin) == NULL)
         printf ("Wrong name of file or file is too long. Try again\n");
     
-    while (*name != '\n')
-        name++;
+    name = strchr (name, '\n');
     *name = '\0';
 }
 
@@ -25,7 +25,7 @@ void description ()
 
 void congratulations ()
 {
-    printf ("All is OK. File is created\n");
+    printf ("All is OK. The file has been created\n");
 }
 
 void failure ()

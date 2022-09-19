@@ -66,10 +66,8 @@ int Strcmp_compar (const void* struct1, const void* struct2)
     assert (struct1);
     assert (struct2);
     
-    char* str1 = ((const struct str_pointer*) struct1)->p;
-    char* str2 = ((const struct str_pointer*) struct2)->p;
-    
-    return strcmp_my (str1, str2);
+    return strcmp_my ((const char*) ((const struct str_pointer*) struct1)->p,
+                      (const char*) ((const struct str_pointer*) struct2)->p);
 }
 
 int Strcmp_reversed_compar (const void* struct1, const void* struct2)
@@ -77,11 +75,8 @@ int Strcmp_reversed_compar (const void* struct1, const void* struct2)
     assert (struct1);
     assert (struct2);
     
-    char* str1 = ((const struct str_pointer*) struct1)->p;
-    char* str2 = ((const struct str_pointer*) struct2)->p;
-    
-    size_t str1_size = ((const struct str_pointer*) struct1)->size;
-    size_t str2_size = ((const struct str_pointer*) struct2)->size; 
-    
-    return strcmp_my_reversed (str1, str1_size, str2, str2_size);
+    return strcmp_my_reversed ((const char*) ((const struct str_pointer*) struct1)->p,
+                               ((const struct str_pointer*) struct1)->size,
+                               (const char*) ((const struct str_pointer*) struct2)->p,
+                               ((const struct str_pointer*) struct2)->size);
 }

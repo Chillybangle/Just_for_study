@@ -9,11 +9,10 @@ size_t nstring_counter (const char* array, size_t size)
 {
     assert (array);
     
-    bool last_string = false;
-    if (*(array + size - 1) != '\n')
-        last_string = true;
-    
     size_t counter = 0;
+    if (*(array + size - 1) != '\n')
+        counter++;
+    
     while (*array)
     {
         if (*array == '\n')
@@ -27,10 +26,6 @@ size_t nstring_counter (const char* array, size_t size)
         array++;
     }
     
-    if (last_string == true)
-    {
-        counter++;
-    }
     return counter;
 }
 
@@ -76,7 +71,7 @@ int array_p_make (struct str_pointer* *array_of_pointers, char* array_text, size
     return OK;
 }
 
-int strcmp_my (char* string1, char* string2)
+int strcmp_my (const char* string1, const char* string2)
 {
     assert (string1);
     assert (string2);
@@ -96,7 +91,7 @@ int strcmp_my (char* string1, char* string2)
         {
             string1++;
         }
-        else if (!isalnum (*string2))
+        else
         {
             string2++;
         }
@@ -105,13 +100,13 @@ int strcmp_my (char* string1, char* string2)
     return *string1 - *string2;
 }
 
-int strcmp_my_reversed (char* str1, size_t str1_size, char* str2, size_t str2_size)
+int strcmp_my_reversed (const char* str1, size_t str1_size, const char* str2, size_t str2_size)
 {
     assert (str1);
     assert (str2);
     
-    char* string1 = str1 + str1_size - 1;
-    char* string2 = str2 + str2_size - 1;
+    const char* string1 = str1 + str1_size - 1;
+    const char* string2 = str2 + str2_size - 1;
 
     int difference = 0;
     while ((str1_size-- > 0) && (str2_size-- > 0))
@@ -128,7 +123,7 @@ int strcmp_my_reversed (char* str1, size_t str1_size, char* str2, size_t str2_si
         {
             string1--;
         }
-        else if (!isalpha (*string2))
+        else
         {
             string2--;
         }
