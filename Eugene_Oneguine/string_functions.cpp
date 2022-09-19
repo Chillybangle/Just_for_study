@@ -1,18 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <ctype.h>
+#include <stdbool.h>
 #include "Oneguine_functions.h"
 
-static int is_punctuation (char symbol);
-
-size_t nstring_counter (const char* array)
+size_t nstring_counter (const char* array, size_t size)
 {
+    assert (array);
+    
+    bool last_string = false;
+    if (*(array + size - 1) != '\n')
+        last_string = true;
+    
     size_t counter = 0;
     while (*array)
     {
         if (*array == '\n')
         {
-            while (*(array + 1) == '\r' || *(array + 1) == '\n') //пропуск пустых строк
+            while (*(array + 1) == '\r' || *(array + 1) == '\n') //< skip empty strings 
                 array++;
             
             counter++;
@@ -21,22 +27,26 @@ size_t nstring_counter (const char* array)
         array++;
     }
     
+    if (last_string == true)
+    {
+        counter++;
+    }
     return counter;
 }
 
-int array_p_make (struct str_pointer* *array_of_pointers, char* array_text, size_t nstrings) // Игнорировать пустые строчки на этом этапе (не ктдать их в массив указателей)
+int array_p_make (struct str_pointer* *array_of_pointers, char* array_text, size_t nstrings)
 {
     assert (array_text);
+    assert (*array_of_pointers == NULL && "Error: array_of_pointers must be a NULL pointer\n");
     
-    if (*array_of_pointers != NULL)
+    struct str_pointer* array_p = (struct str_pointer*) calloc (nstrings + 1, sizeof (struct str_pointer));
+    if (array_p == NULL)
     {
-        printf ("Error: array_of_pointers must be a NULL pointer\n");
+        printf ("Error: I can't create array of pointers\n");
         return FAIL;
     }
     
-    struct str_pointer* array_p = (struct str_pointer*) calloc (nstrings + 1, sizeof (struct str_pointer));
-    
-    int counter = 0;
+    size_t counter = 0;
     
     array_p[counter].p = array_text;
     counter++;
@@ -44,7 +54,7 @@ int array_p_make (struct str_pointer* *array_of_pointers, char* array_text, size
     {
         if (*array_text == '\n')
         {
-            while (*(array_text + 1) == '\r' || *(array_text + 1) == '\n') //skip empty strings 
+            while (*(array_text + 1) == '\r' || *(array_text + 1) == '\n') //< skip empty strings 
                 array_text++;
             
             array_p[counter].p = array_text + 1;
@@ -54,11 +64,9 @@ int array_p_make (struct str_pointer* *array_of_pointers, char* array_text, size
         array_text++;
     }
     
-    counter = 0;
-    while (counter < nstrings - 1)
+    for (counter = 0; counter < nstrings - 1; counter++)
     {
-        array_p[counter].size = array_p[counter + 1].p - array_p[counter].p;
-        counter++;
+        array_p[counter].size = (size_t) (array_p[counter + 1].p - array_p[counter].p);
     }
     
     array_p[counter].size = strlen_my (array_p[counter].p);
@@ -70,30 +78,28 @@ int array_p_make (struct str_pointer* *array_of_pointers, char* array_text, size
 
 int strcmp_my (char* string1, char* string2)
 {
-    while (*string1 == ' ')
-        string1++;
-    while (*string2 == ' ')
-        string2++;
+    assert (string1);
+    assert (string2);
     
     int difference = 0;
-    while (*string1 != '\n' && *string2 != '\n')
+    while (*string1 != '\n' && *string2 != '\n' && *string1 && *string2)
     {
-        if (is_punctuation (*string1))
+        if (isalnum (*string1) && isalnum (*string2))
+        {
+            difference = *string1 - *string2;
+            if (difference != 0)
+                return difference;
+            string1++;
+            string2++;
+        }
+        else if (!isalnum (*string1))
         {
             string1++;
-            continue;
         }
-        if (is_punctuation (*string2))
+        else if (!isalnum (*string2))
         {
             string2++;
-            continue;
         }
-        
-        difference = *string1 - *string2;
-        if (difference != 0)
-            return difference;
-        string1++;
-        string2++;
     }
     
     return *string1 - *string2;
@@ -101,29 +107,31 @@ int strcmp_my (char* string1, char* string2)
 
 int strcmp_my_reversed (char* str1, size_t str1_size, char* str2, size_t str2_size)
 {
+    assert (str1);
+    assert (str2);
+    
     char* string1 = str1 + str1_size - 1;
     char* string2 = str2 + str2_size - 1;
 
     int difference = 0;
     while ((str1_size-- > 0) && (str2_size-- > 0))
     {
-        if (is_punctuation (*string1))
+        if (isalpha (*string1) && isalpha (*string2))
+        {
+            difference = *string1 - *string2;
+            if (difference != 0)
+                return difference;
+            string1--;
+            string2--;
+        }
+        else if (!isalpha (*string1))
         {
             string1--;
-            continue;
         }
-        if (is_punctuation (*string2))
+        else if (!isalpha (*string2))
         {
             string2--;
-            continue;
         }
-        
-        difference = *string1 - *string2;
-        
-        if (difference != 0)
-            return difference;
-        string1--;
-        string2--;
     }
     
     return *string1 - *string2;
@@ -132,8 +140,9 @@ int strcmp_my_reversed (char* str1, size_t str1_size, char* str2, size_t str2_si
 int fputs_my (const char *s, FILE* stream)
 {
     assert (s);
+    assert (stream);
     
-    while (*s != '\n') 
+    while (*s != '\n' && *s) 
     {
         if (fputc (*s++, stream) == EOF)
             return EOF;
@@ -144,42 +153,14 @@ int fputs_my (const char *s, FILE* stream)
 
 size_t strlen_my (char* s)
 {
+    assert (s);
+    
     size_t counter = 0;
-    while (*s != '\n')
+    while (*s != '\n' && *s)
     {
         counter++;
         s++;
     }
     counter++;
     return counter;
-}
-
-static int is_punctuation (char symbol)
-{
-    switch (symbol)
-    {
-        case '\"':
-        case '(':
-        case ')':
-        case ',':
-        case ';':
-        case ':':
-        case '.':
-        case '*':
-        case '-':
-        case '\'':
-        case '!':
-        case '?':
-        case ' ':
-        case '}':
-        case '{':
-        case '[':
-        case ']':
-        case '_':
-            return 1;
-            break;
-        default:
-            return 0;
-            break;
-    }
 }

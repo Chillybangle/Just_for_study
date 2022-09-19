@@ -10,7 +10,7 @@ int strcmp_my_reversed (char* str1, size_t str1_size, char* str2, size_t str2_si
 
 int fputs_my (const char *s, FILE* stream);
 
-size_t nstring_counter (const char* array);
+size_t nstring_counter (const char* array, size_t size);
 
 size_t strlen_my (char* s);
 

@@ -1,27 +1,31 @@
 #include "Oneguine_functions.h"
 
-void get_file_name(char* name, const int max_size)
+void get_file_name(char* name)
 {
-    printf ("Please, print name of file\n");
-    printf ("Example: Eugene_Oneguine.txt\n\t\t\t    ");
+    assert (name);
+    
+    printf ("Please, print name of file\n"
+            "Example: Eugene_Oneguine.txt\n\t\t\t    ");
     while (fgets (name, max_size, stdin) == NULL)
-        printf ("Wrong name of file. Try again\n");
+        printf ("Wrong name of file or file is too long. Try again\n");
+    
+    while (*name != '\n')
+        name++;
+    *name = '\0';
 }
 
 void description ()
 {
-    printf ("This program sorts the poems ");
-    printf ("in lexicographical and reversed lexicographical order\n\n");
-    
-    printf ("It takes your_file.txt file and ");
-    printf ("creates sorted.txt\n");
-    
-    printf ("\nSee the strength of poetry and enjoy it\n\n");
+    printf ("This program sorts the poems in lexicographical and reversed lexicographical order\n"
+            "\n"
+            "It takes your_file.txt file and creates sorted.txt\n"
+            "\n"
+            "See the strength of poetry and enjoy it\n\n");
 }
 
 void congratulations ()
 {
-    printf ("All is OK. File was created\n");
+    printf ("All is OK. File is created\n");
 }
 
 void failure ()

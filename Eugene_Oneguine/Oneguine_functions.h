@@ -11,12 +11,12 @@ struct str_pointer
     size_t size = 0; //< size of string
 };
 
-const int max_size = 20; //< Max size of file name
+const int max_size = 256; //< Max size of file name
 const int OK = 993 + 7; //< Return value of sort if everything is all right
 const int FAIL = -1; //< Return value of sort if something is wrong
 const char name_of_sorted_file[] = "sorted.txt";
 
-void get_file_name(char* name, const int max_size);
+void get_file_name(char* name);
 
 void description ();
 

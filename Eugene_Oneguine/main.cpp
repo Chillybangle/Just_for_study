@@ -5,7 +5,7 @@ int main ()
     description ();
     
     char file_name[max_size] = {0};
-    get_file_name (file_name, max_size);
+    get_file_name (file_name);
     
     int result = 0;
     result = launching_function (file_name);
@@ -25,10 +25,12 @@ int main ()
 
 int launching_function (char* file_name)
 {
+    assert (file_name);
+    
     FILE* input_stream = fopen (file_name, "r");
     if (input_stream == NULL)
     {
-        printf ("Error: I can't open a file with this name\n");
+        perror ("Error: I can't open a file with this name");
         return FAIL;
     }
     
@@ -39,16 +41,16 @@ int launching_function (char* file_name)
         return FAIL;
     }
     
-    char* array = (char*) calloc (size + 1, sizeof (char)); // нулевой символ в конце
+    char* array = (char*) calloc (size + 1, sizeof (char)); // \0 symbol in the end
     
-    int nread = fread (array, sizeof(char), size, input_stream); // process errors
+    fread (array, sizeof(char), size, input_stream);
     if (ferror (input_stream))
     {
         printf ("Error: I can't read the file\n");
         return FAIL;
     }
 
-    size_t nstrings = nstring_counter (array);
+    size_t nstrings = nstring_counter (array, size);
     struct str_pointer* array_p = NULL;
     if (array_p_make (&array_p, array, nstrings) != OK)
         return FAIL;

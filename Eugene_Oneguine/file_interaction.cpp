@@ -2,6 +2,9 @@
 
 void file_write (FILE* sorted_file, struct str_pointer* array_p)
 {
+    assert (sorted_file);
+    assert (array_p);
+    
     for (long int i = 0; array_p[i].p != NULL; i++)
     {
             fputs_my (array_p[i].p, sorted_file);
@@ -22,6 +25,9 @@ FILE* sorted_open ()
 
 int original_file_write (FILE* sorted_file, char* array, size_t size_of_elem, size_t nmemb)
 {
+    assert (sorted_file);
+    assert (array);
+    
     size_t nwritten = 0;
     nwritten = fwrite (array, size_of_elem, nmemb, sorted_file);
     if (nwritten != nmemb)

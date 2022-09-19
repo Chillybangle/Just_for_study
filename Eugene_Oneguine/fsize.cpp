@@ -7,6 +7,8 @@
 
 size_t fsize (char* name)
 {
+    assert (name);
+    
     struct stat stbuf;
     if (stat (name, &stbuf) == -1)
     {
@@ -19,5 +21,5 @@ size_t fsize (char* name)
         return 0;
     }
     
-    return stbuf.st_size;
+    return (size_t) stbuf.st_size;
 }
