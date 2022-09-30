@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <assert.h>
 #include "error_detection.h"
 #include "stack.h"
+
+static FILE* log_file = NULL;
 
 int Error (const char* path_to_file, const int line)
 {
@@ -23,14 +26,18 @@ int Error (const char* path_to_file, const int line)
 
 void log_file_Ctor ()
 {
-    log_file = fopen (stack_log_file_name, "w");
+    log_file = fopen("log.txt", "w");
     if (log_file == NULL)
-        printf ("Log file can't be open\n");
+    {
+        printf ("Cant create log file\n");
+        exit(1);
+    }
 }
 
 void log_file_Dtor ()
 {
     fclose (log_file);
+    log_file = NULL;
 }
 
 enum Stack_Errors stack_error (Stack* stk)
@@ -56,7 +63,7 @@ enum Stack_Errors value_error (elem_type* value)
     return Stack_Errors_FINE;
 }
 
-enum Stack_Errors verifier (Stack* stk)
+enum Stack_Errors verifier (Stack* stk, enum Mode Mode)
 {
     enum Stack_Errors result = Stack_Errors_FINE;
     
@@ -74,32 +81,68 @@ enum Stack_Errors verifier (Stack* stk)
             result = (Stack_Errors) (result | Stack_Errors_NEGATIVE_CAPACITY);
         if (stk -> size == -1)
             result = (Stack_Errors) (result | Stack_Errors_NEGATIVE_SIZE);
+    
+#if DEBUG>2
+        if (Mode == Mode_RECOUNT && result == Stack_Errors_FINE)
+        {
+            *(unsigned int*) (stk -> data + stk -> capacity) = hash_ly ((void*) (stk -> data), (size_t) (stk -> capacity), sizeof(stk -> data[0]));
+        }
+        else if (result == Stack_Errors_FINE)
+        {
+            if (hash_ly ((void*) (stk -> data), (size_t) (stk -> capacity), sizeof(stk -> data[0])) != *(unsigned int*) (stk -> data + stk -> capacity))
+                result = (Stack_Errors) (result | Stack_Errors_HASH_MISMATCH);
+        }
+        else
+        {
+            result = (Stack_Errors) (result | Stack_Errors_HASH_WARNING);
+        }
+#endif
+
+#if DEBUG==2 || DEBUG==4
+        if (Mode == Mode_CHECK)
+        {
+            if (stk -> left_canary != DEAD_CONST)
+                result = (Stack_Errors) (result | Stack_Errors_LEFT_CANARY_ERR);
+            if (stk -> right_canary != DEAD_CONST)
+                result = (Stack_Errors) (result | Stack_Errors_RIGHT_CANARY_ERR);
+            if (*(unsigned int*) ((char*) stk -> data - sizeof (unsigned int)) != DEAD_CONST)
+                result = (Stack_Errors) (result | Stack_Errors_DATA_LCANARY_ERR);
+            
+#if DEBUG==2
+            if (*(unsigned int*) (stk -> data + stk -> capacity) != DEAD_CONST)
+                result = (Stack_Errors) (result | Stack_Errors_DATA_RCANARY_ERR);
+#endif
+        }
+#endif
     }
     
     return result;
 }
-
-void stack_dump_func (Stack* stk, const char* func, const char* file, const int line)
+#if DEBUG>0
+void stack_dump_func (Stack* stk, enum Stack_Errors result, const char* func, const char* file, const int line)
 {
     assert (stk);
     
     if (func != NULL && file != NULL)
-        fprintf (log_file, "\n%s at %s(%d):\n", func, file, line);
+    {
+        fprintf (log_file, "\n%s at %s(%d):\n", func, file, line); // fvprintf
+        fflush (log_file);
+    }
     else
         fprintf (log_file, "\nstack_dump_func failed: unknown calling function or (and) file\n");
-    
-    enum Stack_Errors result = Stack_Errors_FINE;
-    result = verifier (stk);
+    fflush (log_file);
     
     if ((stk -> initialization.constructed) == true)
     {
         if (stk -> initialization.name != NULL && stk -> initialization.call_func != NULL && 
             stk -> initialization.call_file != NULL)
         {
-            fprintf (log_file, "Stack[%p] (%s) \"%s\" at %s at %s(%d)\n", 
+#ifdef LOGALL
+            fprintf (log_file, "Stack[%p] (%s) \"%s\" at %s at %s(%ld)\n", 
                      stk, (result == Stack_Errors_FINE) ? "ok" : "error",
                      stk -> initialization.name, stk -> initialization.call_func,
-                     stk -> initialization.call_file, line);
+                     stk -> initialization.call_file, stk -> initialization.line);
+            fflush (log_file);
             if (result != Stack_Errors_FINE)
             {
                 print_error (result);
@@ -110,45 +153,125 @@ void stack_dump_func (Stack* stk, const char* func, const char* file, const int 
                                 "\t\tdata[%p]\n"
                                 "\t\t\t{\n",
                                 stk -> size, stk -> capacity, stk);
+            fflush (log_file);
             ssize_t i = 0;
             for (; i < stk -> size; i++)
-                fprintf (log_file, "\t\t\t\t*[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == poison) ? "(POISON)" : "");
+            {
+                fprintf (log_file, "\t\t\t\t*[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == (elem_type) POISON) ? "(POISON)" : "");
+                fflush (log_file);
+            }
             for (; i < stk -> capacity; i++)
-                fprintf (log_file, "\t\t\t\t[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == poison) ? "(POISON)" : "");
+            {
+                fprintf (log_file, "\t\t\t\t[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == (elem_type) POISON) ? "(POISON)" : "");
+                fflush (log_file);
+            }
         
             fprintf (log_file, "\t\t\t}\n"
                                 "\t}\n");
+            fflush (log_file);
+#endif
+            
+#ifndef LOGALL
+            fprintf (log_file, "Stack[%p] (%s) \"%s\" at %s at %s(%ld)\n", 
+                     stk, (result == Stack_Errors_FINE) ? "ok" : "error",
+                     stk -> initialization.name, stk -> initialization.call_func,
+                     stk -> initialization.call_file, stk -> initialization.line);
+            fflush (log_file);
+            if (result != Stack_Errors_FINE)
+            {
+                print_error (result);
+                
+                fprintf (log_file,  "\t{\n"
+                                    "\t\tsize = %ld\n"
+                                    "\t\tcapacity = %ld\n"\
+                                    "\t\tdata[%p]\n"
+                                    "\t\t\t{\n",
+                                    stk -> size, stk -> capacity, stk);
+                fflush (log_file);
+                ssize_t i = 0;
+                for (; i < stk -> size; i++)
+                {
+                    fprintf (log_file, "\t\t\t\t*[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == (elem_type) POISON) ? "(POISON)" : "");
+                    fflush (log_file);
+                }
+                for (; i < stk -> capacity; i++)
+                {
+                    fprintf (log_file, "\t\t\t\t[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == (elem_type) POISON) ? "(POISON)" : "");
+                    fflush (log_file);
+                }
+            
+                fprintf (log_file, "\t\t\t}\n"
+                                    "\t}\n");
+                fflush (log_file);
+            }
+#endif
         }
         else
         {
-            fprintf (log_file, "Stack[%p] (ok) initialize info failed\n", stk);
+            fprintf (log_file, "Stack[%p] (%s) initialize info failed\n", stk, (result == Stack_Errors_FINE) ? "ok" : "error");
+            fflush (log_file);
         }
     }
     else 
     {
         fprintf (log_file, "Stack[%p] was not constructed\n", stk);
+        fflush (log_file);
     }
 }
-
+#endif
 enum Stack_Errors print_error (enum Stack_Errors result)
 {
-    if (result & Stack_Errors_OVERWRITING_ATTEMPT)
-        fprintf (log_file, "-Overwriting attempt (this stack has already been created, "
+    FPRINT_ERR (Stack_Errors_OVERWRITING_ATTEMPT,
+                "-Overwriting attempt (this stack has already been created, "
                            "constructor call error)\n");
-    if (result & Stack_Errors_REALLOC_FAILED)
-        fprintf (log_file, "-Realloc returns NULL-pointer (stack resize error)\n");
-    if (result & Stack_Errors_STACK_NULL_PTR)
-        fprintf (log_file, "-The pointer to a struct Stack variable is a NULL-pointer\n");
-    if (result & Stack_Errors_DATA_NULL_PTR)
-        fprintf (log_file, "-The buffer pointer (data) is a NULL-pointer\n");
-    if (result & Stack_Errors_TOO_LARGE_SIZE)
-        fprintf (log_file, "-A wild situation with Stack: size >= capacity\n");
-    if (result & Stack_Errors_NEGATIVE_CAPACITY)
-        fprintf (log_file, "-Stack capacity is negative! (impossible value)\n");
-    if (result & Stack_Errors_NEGATIVE_SIZE)
-        fprintf (log_file, "-Stack size is negative! (impossible value)\n");
-    if (result & Stack_Errors_INVALID_POP)
-        fprintf (log_file, "-Invalid pop. Attempt to pull out an element with a negative number\n");
+    FPRINT_ERR (Stack_Errors_REALLOC_FAILED,
+                "-Realloc returns NULL-pointer (stack resize error)\n");
+    FPRINT_ERR (Stack_Errors_STACK_NULL_PTR,
+                "-The pointer to a struct Stack variable is a NULL-pointer\n");
+    FPRINT_ERR (Stack_Errors_DATA_NULL_PTR,
+                "-The buffer pointer (data) is a NULL-pointer\n");
+    FPRINT_ERR (Stack_Errors_TOO_LARGE_SIZE,
+                "-A wild situation with Stack: size >= capacity\n");
+    FPRINT_ERR (Stack_Errors_NEGATIVE_CAPACITY,
+                "-Stack capacity is negative! (impossible value)\n");
+    FPRINT_ERR (Stack_Errors_NEGATIVE_SIZE,
+                "-Stack size is negative! (impossible value)\n");
+    FPRINT_ERR (Stack_Errors_INVALID_POP,
+                "-Invalid pop. Attempt to pull out an element with a negative number\n");
+#if DEBUG!=4
+    FPRINT_ERR (Stack_Errors_HASH_MISMATCH,
+                "-Hash mismatch. Current value does not match the previous one\n");
+#endif
+    
+#if DEBUG==4
+    FPRINT_ERR (Stack_Errors_HASH_MISMATCH,
+                "-Hash mismatch. Current value does not match the previous one or right data canary was attacked\n");
+#endif
+    FPRINT_ERR (Stack_Errors_HASH_WARNING,
+                "-The hash was not calculated or verified due to other errors\n");
+    FPRINT_ERR (Stack_Errors_LEFT_CANARY_ERR,
+                "-Left canary const in the struct was changed!\n");
+    FPRINT_ERR (Stack_Errors_RIGHT_CANARY_ERR,
+                "-Right canary const in the struct was changed!\n");
+    FPRINT_ERR (Stack_Errors_DATA_LCANARY_ERR,
+                "-Left canary in the stack data was changed!\n");
+    FPRINT_ERR (Stack_Errors_DATA_RCANARY_ERR,
+                "-Right canary in the stack data was changed!\n");
     
     return result;
+}
+
+unsigned int hash_ly (void* data, size_t n_elems, size_t elem_size)
+{
+    unsigned int hash = 0;
+    size_t size = elem_size * n_elems;
+    char * data_ch = (char*) data;
+
+    for(size_t i = 0; i < size; i++)
+    {
+        hash = (hash * 1664525) + *(unsigned char*) data_ch + 1013904223;
+        data_ch++;
+    }
+
+    return hash;
 }

@@ -1,104 +1,165 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <string.h>
 #include "stack.h"
 #include "error_detection.h"
 
+static void Make_Poisoned (Stack* stk);
+
 enum Stack_Errors stack_ctor_func (Stack* stk, ssize_t capacity, const char* name, const char* call_func, const char* call_file, ssize_t line)
 {
-    ASSERT_OK (stk);
+    enum Stack_Errors result = Stack_Errors_FINE;
+    ASSERT_OK (stk, result);
     assert (!stack_error (stk));
     
-    enum Stack_Errors result = Stack_Errors_FINE;
-    
-    if (stk -> capacity == 0)
+    if (stk -> data == NULL)
     {
-        stk -> data = (elem_type*) calloc ((size_t) capacity, sizeof (elem_type));
-        stk -> capacity = capacity;
+        if (capacity == -1)
+            result = (Stack_Errors) (result | Stack_Errors_NEGATIVE_CAPACITY);
+        else
+        {
+            if (capacity == 0)
+                capacity = MIN_CAPACITY;
+#if DEBUG==0 || DEBUG==1
+            stk -> data = (elem_type*) calloc ((size_t) capacity, sizeof (elem_type));
+#endif
+            
+#if DEBUG>1
+            stk -> data = (elem_type*) calloc ((size_t) capacity + 2 * sizeof(unsigned int), sizeof (elem_type));
+            *(unsigned int*) stk -> data = DEAD_CONST;
+            stk -> data = (elem_type*) ((char*)stk -> data + sizeof (unsigned int)); // canary type
+            *(unsigned int*) (stk -> data + capacity) = DEAD_CONST;
+#endif
+            stk -> capacity = capacity;
+        }
     }
     else
         result = (Stack_Errors) (result | Stack_Errors_OVERWRITING_ATTEMPT);
     
+#if DEBUG>0
     stk -> initialization.constructed = true;
     stk -> initialization.name = name;
     stk -> initialization.call_func = call_func;
     stk -> initialization.call_file = call_file;
     stk -> initialization.line = line;
+#endif
     
-    ASSERT_OK(stk);
+    result = (Stack_Errors) (result | verifier (stk, Mode_RECOUNT));
+    ASSERT_OK(stk, result);
     
     return result;
 }
 
 enum Stack_Errors stack_dtor (Stack* stk)
 {
-    ASSERT_OK (stk);
+    enum Stack_Errors result = verifier (stk, Mode_CHECK);
+    ASSERT_OK (stk, result);
     assert (!stack_error (stk));
     
+    if (stk -> capacity != -1)
+    {
+        stk -> size = 0;
+        Make_Poisoned (stk);
+    }
     stk -> size = -1;
     stk -> capacity = -1;
+    
+#if DEBUG>1
+    free ((elem_type*) ((char*) stk -> data - sizeof(unsigned int)));
+#endif
+    
+#if DEBUG==0 || DEBUG==1
     free (stk -> data);
+#endif
     
-    ASSERT_OK (stk);
+    stk -> data = NULL;
     
-    return Stack_Errors_FINE;
+    result = (Stack_Errors) (result | verifier (stk, Mode_RECOUNT));
+    ASSERT_OK (stk, result);
+    
+    return result;
 }
 
 enum Stack_Errors stack_push (Stack* stk, elem_type value)
 {
-    ASSERT_OK(stk);
+    enum Stack_Errors result = verifier (stk, Mode_CHECK);
+    ASSERT_OK (stk, result);
     assert (!stack_error (stk));
     
-    enum Stack_Errors result = Stack_Errors_FINE;
-    
-    
-    if (stk -> size >= stk -> capacity)
+    if ((stk -> size + 1) >= stk -> capacity)
         result = (Stack_Errors) (result | stack_resize (stk, (stk -> capacity) * 2));
     stk -> data [stk -> size++] = value;
     
-    ASSERT_OK(stk);
+    result = (Stack_Errors) (result | verifier (stk, Mode_RECOUNT));
+    ASSERT_OK(stk, result);
     
-    result = verifier (stk);
     return result;
 }
 
 enum Stack_Errors stack_resize (Stack* stk, ssize_t capacity)
 {
-    ASSERT_OK(stk);
+    enum Stack_Errors result = verifier (stk, Mode_CHECK);
+    ASSERT_OK (stk, result);
     assert (!stack_error (stk));
     
     if (capacity < 1)
         return print_error (Stack_Errors_ZERO_CAPACITY);
-    stk -> data = (elem_type*) realloc (stk -> data, (size_t) capacity * sizeof (elem_type));
+    if (capacity >= MIN_CAPACITY)
+    {
+        stk -> capacity = capacity;
+        
+#if DEBUG==0 || DEBUG==1
+        stk -> data = (elem_type*) realloc (stk -> data, (size_t) capacity * sizeof (elem_type));
+#endif
+        
+#if DEBUG>1
+        stk -> data = (elem_type*) realloc ((elem_type*) ((char*) stk -> data - sizeof(unsigned int)), (size_t) capacity * sizeof (elem_type) + 2 * sizeof (unsigned int));
+        *(unsigned int*) stk -> data = DEAD_CONST;
+        stk -> data = (elem_type*) ((char*)stk -> data + sizeof (unsigned int));
+        *(unsigned int*) (stk -> data + capacity) = DEAD_CONST;
+        Make_Poisoned (stk);
+#endif
+    }
     if (stk -> data == NULL)
         return print_error (Stack_Errors_REALLOC_FAILED);
     
-    ASSERT_OK(stk);
-    return Stack_Errors_FINE;
+    result = (Stack_Errors) (result | verifier (stk, Mode_RECOUNT));
+    ASSERT_OK(stk, result);
+    return result;
 }
 
 enum Stack_Errors stack_pop (Stack* stk, elem_type* value)
 {
-    ASSERT_OK (stk);
+    enum Stack_Errors result = verifier (stk, Mode_CHECK);
+    ASSERT_OK (stk, result);
     assert (!value_error (value));
-    
-    enum Stack_Errors result = Stack_Errors_FINE;
     
     if (stk -> size > 0)
     {
         *value = stk -> data[--(stk -> size)];
-        stk -> data[(stk -> size)] = poison;
     }
     else
     {
         result = (Stack_Errors) (result | Stack_Errors_INVALID_POP);
+        result = (Stack_Errors) (result | verifier (stk, Mode_RECOUNT));
+        ASSERT_OK (stk, result);
+        return result;
     }
     
-    if (stk -> size > stk -> capacity / 4)
+    if (stk -> size < stk -> capacity / 4) 
         result = (Stack_Errors) (result | stack_resize (stk, (stk -> capacity) / 2));
     
-    ASSERT_OK (stk);
+    stk -> data[(stk -> size)] = (elem_type) POISON;
+    result = (Stack_Errors) (result | verifier (stk, Mode_RECOUNT));
+    ASSERT_OK (stk, result);
     
-    result = (Stack_Errors) (result | verifier (stk));
     return result;
+}
+
+static void Make_Poisoned (Stack* stk)
+{
+    ssize_t capacity = stk -> capacity;
+    for (ssize_t i = stk -> size; i < capacity; i++)
+        stk -> data[i] = (elem_type)POISON;
 }
