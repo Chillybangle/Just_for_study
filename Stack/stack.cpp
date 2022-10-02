@@ -9,7 +9,7 @@ static void Make_Poisoned (Stack* stk);
 
 enum Stack_Errors stack_ctor_func (Stack* stk, ssize_t capacity, const char* name, const char* call_func, const char* call_file, ssize_t line)
 {
-    enum Stack_Errors result = Stack_Errors_FINE;
+    enum Stack_Errors result = verifier (stk, Mode_RECOUNT);
     ASSERT_OK (stk, result);
     assert (!stack_error (stk));
     
@@ -26,10 +26,10 @@ enum Stack_Errors stack_ctor_func (Stack* stk, ssize_t capacity, const char* nam
 #endif
             
 #if DEBUG>1
-            stk -> data = (elem_type*) calloc ((size_t) capacity + 2 * sizeof(unsigned int), sizeof (elem_type));
-            *(unsigned int*) stk -> data = DEAD_CONST;
-            stk -> data = (elem_type*) ((char*)stk -> data + sizeof (unsigned int)); // canary type
-            *(unsigned int*) (stk -> data + capacity) = DEAD_CONST;
+            stk -> data = (elem_type*) calloc ((size_t) capacity + 2 * sizeof(canary_type), sizeof (elem_type));
+            *(canary_type*) stk -> data = DEAD_CONST;
+            stk -> data = (elem_type*) ((canary_type*) stk -> data + 1); // canary type
+            *(canary_type*) (stk -> data + capacity) = DEAD_CONST;
 #endif
             stk -> capacity = capacity;
         }
@@ -53,9 +53,12 @@ enum Stack_Errors stack_ctor_func (Stack* stk, ssize_t capacity, const char* nam
 
 enum Stack_Errors stack_dtor (Stack* stk)
 {
+    assert (!stack_error (stk));
+    if (stk -> data == NULL)
+        return Stack_Errors_DATA_NULL_PTR;
     enum Stack_Errors result = verifier (stk, Mode_CHECK);
     ASSERT_OK (stk, result);
-    assert (!stack_error (stk));
+    FAIL_RETURN (result);
     
     if (stk -> capacity != -1)
     {
@@ -66,10 +69,14 @@ enum Stack_Errors stack_dtor (Stack* stk)
     stk -> capacity = -1;
     
 #if DEBUG>1
-    free ((elem_type*) ((char*) stk -> data - sizeof(unsigned int)));
+    if ((elem_type*) ((canary_type*) stk -> data - 1) == NULL)
+        return Stack_Errors_DATA_NULL_PTR;
+    free ((elem_type*) ((canary_type*) stk -> data - 1));
 #endif
     
 #if DEBUG==0 || DEBUG==1
+    if (stk -> data == NULL)
+        return Stack_Errors_DATA_NULL_PTR;
     free (stk -> data);
 #endif
     
@@ -85,6 +92,7 @@ enum Stack_Errors stack_push (Stack* stk, elem_type value)
 {
     enum Stack_Errors result = verifier (stk, Mode_CHECK);
     ASSERT_OK (stk, result);
+    FAIL_RETURN (result);
     assert (!stack_error (stk));
     
     if ((stk -> size + 1) >= stk -> capacity)
@@ -101,6 +109,7 @@ enum Stack_Errors stack_resize (Stack* stk, ssize_t capacity)
 {
     enum Stack_Errors result = verifier (stk, Mode_CHECK);
     ASSERT_OK (stk, result);
+    FAIL_RETURN (result);
     assert (!stack_error (stk));
     
     if (capacity < 1)
@@ -114,10 +123,10 @@ enum Stack_Errors stack_resize (Stack* stk, ssize_t capacity)
 #endif
         
 #if DEBUG>1
-        stk -> data = (elem_type*) realloc ((elem_type*) ((char*) stk -> data - sizeof(unsigned int)), (size_t) capacity * sizeof (elem_type) + 2 * sizeof (unsigned int));
-        *(unsigned int*) stk -> data = DEAD_CONST;
-        stk -> data = (elem_type*) ((char*)stk -> data + sizeof (unsigned int));
-        *(unsigned int*) (stk -> data + capacity) = DEAD_CONST;
+        stk -> data = (elem_type*) realloc ((elem_type*) ((canary_type*) stk -> data - 1), (size_t) capacity * sizeof (elem_type) + 2 * sizeof (canary_type));
+        *(canary_type*) stk -> data = DEAD_CONST;
+        stk -> data = (elem_type*) ((canary_type*) stk -> data + 1);
+        *(canary_type*) (stk -> data + capacity) = DEAD_CONST;
         Make_Poisoned (stk);
 #endif
     }
@@ -133,6 +142,7 @@ enum Stack_Errors stack_pop (Stack* stk, elem_type* value)
 {
     enum Stack_Errors result = verifier (stk, Mode_CHECK);
     ASSERT_OK (stk, result);
+    FAIL_RETURN (result);
     assert (!value_error (value));
     
     if (stk -> size > 0)

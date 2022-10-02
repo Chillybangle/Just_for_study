@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <assert.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include "error_detection.h"
 #include "stack.h"
 
@@ -69,7 +72,7 @@ enum Stack_Errors verifier (Stack* stk, enum Mode Mode)
     
     if (stk == NULL)
     {
-        result = (Stack_Errors) (result | Stack_Errors_STACK_NULL_PTR);
+        return Stack_Errors_STACK_NULL_PTR;
     }
     else
     {
@@ -81,6 +84,21 @@ enum Stack_Errors verifier (Stack* stk, enum Mode Mode)
             result = (Stack_Errors) (result | Stack_Errors_NEGATIVE_CAPACITY);
         if (stk -> size == -1)
             result = (Stack_Errors) (result | Stack_Errors_NEGATIVE_SIZE);
+#if DEBUG>2
+        static unsigned int struct_hash = 0;
+        if (Mode == Mode_RECOUNT)
+        {
+            struct_hash = struct_hash_counter ((void*) stk);
+        }
+        else
+        {
+            if (struct_hash != struct_hash_counter ((void*) stk))
+                result = (Stack_Errors) (result | Stack_Errors_STRUCT_HASH_ERR);
+        }
+#endif
+        
+        if (result != Stack_Errors_FINE)
+            return result;
     
 #if DEBUG>2
         if (Mode == Mode_RECOUNT && result == Stack_Errors_FINE)
@@ -105,10 +123,11 @@ enum Stack_Errors verifier (Stack* stk, enum Mode Mode)
                 result = (Stack_Errors) (result | Stack_Errors_LEFT_CANARY_ERR);
             if (stk -> right_canary != DEAD_CONST)
                 result = (Stack_Errors) (result | Stack_Errors_RIGHT_CANARY_ERR);
-            if (*(unsigned int*) ((char*) stk -> data - sizeof (unsigned int)) != DEAD_CONST)
+            if (*((canary_type*) stk -> data - 1) != DEAD_CONST)
                 result = (Stack_Errors) (result | Stack_Errors_DATA_LCANARY_ERR);
             
 #if DEBUG==2
+        if (Mode == Mode_CHECK && result == Stack_Errors_FINE)
             if (*(unsigned int*) (stk -> data + stk -> capacity) != DEAD_CONST)
                 result = (Stack_Errors) (result | Stack_Errors_DATA_RCANARY_ERR);
 #endif
@@ -154,21 +173,25 @@ void stack_dump_func (Stack* stk, enum Stack_Errors result, const char* func, co
                                 "\t\t\t{\n",
                                 stk -> size, stk -> capacity, stk);
             fflush (log_file);
-            ssize_t i = 0;
-            for (; i < stk -> size; i++)
+            
+            if (DATA_ADDRESSING_CHECK(result))
             {
-                fprintf (log_file, "\t\t\t\t*[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == (elem_type) POISON) ? "(POISON)" : "");
+                ssize_t i = 0;
+                for (; i < stk -> size; i++)
+                {
+                    fprintf (log_file, "\t\t\t\t*[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == (elem_type) POISON) ? "(POISON)" : "");
+                    fflush (log_file);
+                }
+                for (; i < stk -> capacity; i++)
+                {
+                    fprintf (log_file, "\t\t\t\t[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == (elem_type) POISON) ? "(POISON)" : "");
+                    fflush (log_file);
+                }
+            
+                fprintf (log_file, "\t\t\t}\n"
+                                    "\t}\n");
                 fflush (log_file);
             }
-            for (; i < stk -> capacity; i++)
-            {
-                fprintf (log_file, "\t\t\t\t[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == (elem_type) POISON) ? "(POISON)" : "");
-                fflush (log_file);
-            }
-        
-            fprintf (log_file, "\t\t\t}\n"
-                                "\t}\n");
-            fflush (log_file);
 #endif
             
 #ifndef LOGALL
@@ -188,21 +211,25 @@ void stack_dump_func (Stack* stk, enum Stack_Errors result, const char* func, co
                                     "\t\t\t{\n",
                                     stk -> size, stk -> capacity, stk);
                 fflush (log_file);
-                ssize_t i = 0;
-                for (; i < stk -> size; i++)
+                
+                if (DATA_ADDRESSING_CHECK(result))
                 {
-                    fprintf (log_file, "\t\t\t\t*[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == (elem_type) POISON) ? "(POISON)" : "");
+                    ssize_t i = 0;
+                    for (; i < stk -> size; i++)
+                    {
+                        fprintf (log_file, "\t\t\t\t*[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == (elem_type) POISON) ? "(POISON)" : "");
+                        fflush (log_file);
+                    }
+                    for (; i < stk -> capacity; i++)
+                    {
+                        fprintf (log_file, "\t\t\t\t[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == (elem_type) POISON) ? "(POISON)" : "");
+                        fflush (log_file);
+                    }
+                
+                    fprintf (log_file, "\t\t\t}\n"
+                                        "\t}\n");
                     fflush (log_file);
                 }
-                for (; i < stk -> capacity; i++)
-                {
-                    fprintf (log_file, "\t\t\t\t[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == (elem_type) POISON) ? "(POISON)" : "");
-                    fflush (log_file);
-                }
-            
-                fprintf (log_file, "\t\t\t}\n"
-                                    "\t}\n");
-                fflush (log_file);
             }
 #endif
         }
@@ -257,8 +284,23 @@ enum Stack_Errors print_error (enum Stack_Errors result)
                 "-Left canary in the stack data was changed!\n");
     FPRINT_ERR (Stack_Errors_DATA_RCANARY_ERR,
                 "-Right canary in the stack data was changed!\n");
+    FPRINT_ERR (Stack_Errors_STRUCT_HASH_ERR,
+                "-Some element in the stack struct (data, size or capacity) was changed!\n");
     
     return result;
+}
+
+unsigned int struct_hash_counter (void* struct_ptr)
+{
+    Stack* stack_ptr = (Stack*) struct_ptr;
+    
+    unsigned int hash = 0;
+    
+    hash = (hash * 1664525) + (unsigned int) (uintptr_t) (stack_ptr -> data) + 1013904223;
+    hash = (hash * 1664525) + (unsigned int) stack_ptr -> size + 1013904223;
+    hash = (hash * 1664525) + (unsigned int) stack_ptr -> capacity + 1013904223;
+           
+    return hash;
 }
 
 unsigned int hash_ly (void* data, size_t n_elems, size_t elem_size)
@@ -269,7 +311,7 @@ unsigned int hash_ly (void* data, size_t n_elems, size_t elem_size)
 
     for(size_t i = 0; i < size; i++)
     {
-        hash = (hash * 1664525) + *(unsigned char*) data_ch + 1013904223;
+        hash = (hash* 1664525) + *(unsigned char*) data_ch + 1013904223;
         data_ch++;
     }
 

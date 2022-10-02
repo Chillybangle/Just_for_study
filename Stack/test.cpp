@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "error_detection.h"
 
+// file to test the stack struct
 int main ()
 {
     log_file_Ctor ();
@@ -18,8 +19,8 @@ int main ()
     stack_push (&stk111, 9) ASSERTED;
     stack_push (&stk111, 10) ASSERTED;
     
-    // stk111.data = NULL;
-    // stk111.data = stk111.data - 2;
+    //stk111.data = NULL; deal with it
+    //stk111.data = stk111.data - 2; deal
     // stk111.capacity = stk111.capacity + 100;
     
     elem_type value = 0;
@@ -33,15 +34,14 @@ int main ()
     stack_push (&stk111, 5) ASSERTED;
     stack_push (&stk111, 6) ASSERTED;
     stack_push (&stk111, 7) ASSERTED;
-    stk111.data [2] = 100;
-    stk111.data [-1] = 15;
-    stk111.data [stk111.capacity] = 50;
+    //stk111.data [2] = 100;
+    //stk111.data [-1] = 15;
+    //stk111.data [stk111.capacity] = 50;
     stack_push (&stk111, 8) ASSERTED;
     
     printf ("%d\n", value);
-    printf ("%d\n", Stack_Errors_REALLOC_FAILED);
     
     stack_dtor (&stk111) ASSERTED;
     log_file_Dtor ();
-    // stack_dtor(&stk111);
+    //stack_dtor(&stk111);
 }
