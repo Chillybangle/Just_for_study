@@ -19,10 +19,9 @@
 #ifndef STACKSTRUCT
 #define STACKSTRUCT
 
-typedef double elem_type;          //< type of element in the stack
-#define ELEM_FMT "%lf"           //< specifier of this type to printf
+typedef int elem_type;          //< type of element in the stack
+#define ELEM_FMT "%d"           //< specifier of this type to printf
 const ssize_t MIN_CAPACITY = 5; //< min capacity of created stack
-const double float_cmp_accuracy = 0.01;
 
 /// Constants which show errors (bitmask format)
 enum Stack_Errors
@@ -57,8 +56,8 @@ typedef struct
     ssize_t line = -1;
 } Varinfo;
 
-typedef elem_type canary_type;          //< type of canaries
-const canary_type DEAD_CONST = 0x1DEADFFF; //< const to canaries
+const unsigned int DEAD_CONST = 0x1DEADFFF; //< const to canaries
+typedef unsigned int canary_type;          //< type of canaries
 #endif
 
 typedef struct stack

@@ -1,0 +1,1216 @@
+
+Stack_Errors stack_ctor_func(Stack*, ssize_t, const char*, const char*, const char*, ssize_t) at stack.cpp(13):
+Stack[0x7ffff628aec0] was not constructed
+
+Stack_Errors stack_ctor_func(Stack*, ssize_t, const char*, const char*, const char*, ssize_t) at stack.cpp(49):
+Stack[0x7ffff628aec0] (error) "stk111" at int main() at test.cpp(9)
+-The buffer pointer (data) is a NULL-pointer
+-A wild situation with Stack: size >= capacity
+	{
+		size = 0
+		capacity = 5
+		data[0x7ffff628aec0]
+			{
+Error: Function in "test.cpp" file on (9) line returns non-zero value
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(94):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 0
+		capacity = 5
+		data[0x7ffff628aec0]
+			{
+				[0] = 0.000000 
+				[1] = 0.000000 
+				[2] = 0.000000 
+				[3] = 0.000000 
+				[4] = 0.000000 
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(103):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 1
+		capacity = 5
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				[1] = 0.000000 
+				[2] = 0.000000 
+				[3] = 0.000000 
+				[4] = 0.000000 
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(94):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 1
+		capacity = 5
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				[1] = 0.000000 
+				[2] = 0.000000 
+				[3] = 0.000000 
+				[4] = 0.000000 
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(103):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 2
+		capacity = 5
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				[2] = 0.000000 
+				[3] = 0.000000 
+				[4] = 0.000000 
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(94):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 2
+		capacity = 5
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				[2] = 0.000000 
+				[3] = 0.000000 
+				[4] = 0.000000 
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(103):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 3
+		capacity = 5
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				[3] = 0.000000 
+				[4] = 0.000000 
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(94):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 3
+		capacity = 5
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				[3] = 0.000000 
+				[4] = 0.000000 
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(103):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 4
+		capacity = 5
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				[4] = 0.000000 
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(94):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 4
+		capacity = 5
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				[4] = 0.000000 
+			}
+	}
+
+Stack_Errors stack_resize(Stack*, ssize_t) at stack.cpp(111):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 4
+		capacity = 5
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				[4] = 0.000000 
+			}
+	}
+
+Stack_Errors stack_resize(Stack*, ssize_t) at stack.cpp(137):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 4
+		capacity = 10
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				[4] = 3135106354.000000 (POISON)
+				[5] = 3135106354.000000 (POISON)
+				[6] = 3135106354.000000 (POISON)
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(103):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 5
+		capacity = 10
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				[5] = 3135106354.000000 (POISON)
+				[6] = 3135106354.000000 (POISON)
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(94):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 5
+		capacity = 10
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				[5] = 3135106354.000000 (POISON)
+				[6] = 3135106354.000000 (POISON)
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(103):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 6
+		capacity = 10
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				[6] = 3135106354.000000 (POISON)
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(94):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 6
+		capacity = 10
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				[6] = 3135106354.000000 (POISON)
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(103):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 7
+		capacity = 10
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				*[6] = 7.700000 
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(94):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 7
+		capacity = 10
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				*[6] = 7.700000 
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(103):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 8
+		capacity = 10
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				*[6] = 7.700000 
+				*[7] = 8.800000 
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(94):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 8
+		capacity = 10
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				*[6] = 7.700000 
+				*[7] = 8.800000 
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(103):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 9
+		capacity = 10
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				*[6] = 7.700000 
+				*[7] = 8.800000 
+				*[8] = 9.900000 
+				[9] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(94):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 9
+		capacity = 10
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				*[6] = 7.700000 
+				*[7] = 8.800000 
+				*[8] = 9.900000 
+				[9] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_resize(Stack*, ssize_t) at stack.cpp(111):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 9
+		capacity = 10
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				*[6] = 7.700000 
+				*[7] = 8.800000 
+				*[8] = 9.900000 
+				[9] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_resize(Stack*, ssize_t) at stack.cpp(137):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 9
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				*[6] = 7.700000 
+				*[7] = 8.800000 
+				*[8] = 9.900000 
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(103):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 10
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				*[6] = 7.700000 
+				*[7] = 8.800000 
+				*[8] = 9.900000 
+				*[9] = 10.100000 
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_pop(Stack*, elem_type*) at stack.cpp(144):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 10
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				*[6] = 7.700000 
+				*[7] = 8.800000 
+				*[8] = 9.900000 
+				*[9] = 10.100000 
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_pop(Stack*, elem_type*) at stack.cpp(165):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 9
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				*[6] = 7.700000 
+				*[7] = 8.800000 
+				*[8] = 9.900000 
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_pop(Stack*, elem_type*) at stack.cpp(144):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 9
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				*[6] = 7.700000 
+				*[7] = 8.800000 
+				*[8] = 9.900000 
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_pop(Stack*, elem_type*) at stack.cpp(165):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 8
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				*[6] = 7.700000 
+				*[7] = 8.800000 
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_pop(Stack*, elem_type*) at stack.cpp(144):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 8
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				*[6] = 7.700000 
+				*[7] = 8.800000 
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_pop(Stack*, elem_type*) at stack.cpp(165):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 7
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				*[6] = 7.700000 
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_pop(Stack*, elem_type*) at stack.cpp(144):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 7
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				*[6] = 7.700000 
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_pop(Stack*, elem_type*) at stack.cpp(165):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 6
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				[6] = 3135106354.000000 (POISON)
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_pop(Stack*, elem_type*) at stack.cpp(144):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 6
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				*[5] = 6.600000 
+				[6] = 3135106354.000000 (POISON)
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_pop(Stack*, elem_type*) at stack.cpp(165):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 5
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				[5] = 3135106354.000000 (POISON)
+				[6] = 3135106354.000000 (POISON)
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_pop(Stack*, elem_type*) at stack.cpp(144):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 5
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 5.500000 
+				[5] = 3135106354.000000 (POISON)
+				[6] = 3135106354.000000 (POISON)
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_resize(Stack*, ssize_t) at stack.cpp(111):
+Stack[0x7ffff628aec0] (error) "stk111" at int main() at test.cpp(9)
+-Some element in the stack struct (data, size or capacity) was changed!
+	{
+		size = 4
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+
+Stack_Errors stack_pop(Stack*, elem_type*) at stack.cpp(165):
+Stack[0x7ffff628aec0] (error) "stk111" at int main() at test.cpp(9)
+-Some element in the stack struct (data, size or capacity) was changed!
+	{
+		size = 4
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+Error: Function in "test.cpp" file on (32) line returns non-zero value
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(94):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 4
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				[4] = 3135106354.000000 (POISON)
+				[5] = 3135106354.000000 (POISON)
+				[6] = 3135106354.000000 (POISON)
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(103):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 5
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 4.700000 
+				[5] = 3135106354.000000 (POISON)
+				[6] = 3135106354.000000 (POISON)
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(94):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 5
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 4.700000 
+				[5] = 3135106354.000000 (POISON)
+				[6] = 3135106354.000000 (POISON)
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(103):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 6
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 4.700000 
+				*[5] = 5.800000 
+				[6] = 3135106354.000000 (POISON)
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(94):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 6
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 4.700000 
+				*[5] = 5.800000 
+				[6] = 3135106354.000000 (POISON)
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(103):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 7
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 4.700000 
+				*[5] = 5.800000 
+				*[6] = 6.900000 
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(94):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 7
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 4.700000 
+				*[5] = 5.800000 
+				*[6] = 6.900000 
+				[7] = 3135106354.000000 (POISON)
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(103):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 8
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 4.700000 
+				*[5] = 5.800000 
+				*[6] = 6.900000 
+				*[7] = 7.100000 
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(94):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 8
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 4.700000 
+				*[5] = 5.800000 
+				*[6] = 6.900000 
+				*[7] = 7.100000 
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_push(Stack*, elem_type) at stack.cpp(103):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 9
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 4.700000 
+				*[5] = 5.800000 
+				*[6] = 6.900000 
+				*[7] = 7.100000 
+				*[8] = 8.110000 
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_pop(Stack*, elem_type*) at stack.cpp(144):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 9
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 4.700000 
+				*[5] = 5.800000 
+				*[6] = 6.900000 
+				*[7] = 7.100000 
+				*[8] = 8.110000 
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_pop(Stack*, elem_type*) at stack.cpp(165):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 8
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 4.700000 
+				*[5] = 5.800000 
+				*[6] = 6.900000 
+				*[7] = 7.100000 
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_dtor(Stack*) at stack.cpp(60):
+Stack[0x7ffff628aec0] (ok) "stk111" at int main() at test.cpp(9)
+	{
+		size = 8
+		capacity = 20
+		data[0x7ffff628aec0]
+			{
+				*[0] = 1.100000 
+				*[1] = 2.200000 
+				*[2] = 3.300000 
+				*[3] = 4.400000 
+				*[4] = 4.700000 
+				*[5] = 5.800000 
+				*[6] = 6.900000 
+				*[7] = 7.100000 
+				[8] = 3135106354.000000 (POISON)
+				[9] = 3135106354.000000 (POISON)
+				[10] = 3135106354.000000 (POISON)
+				[11] = 3135106354.000000 (POISON)
+				[12] = 3135106354.000000 (POISON)
+				[13] = 3135106354.000000 (POISON)
+				[14] = 3135106354.000000 (POISON)
+				[15] = 3135106354.000000 (POISON)
+				[16] = 3135106354.000000 (POISON)
+				[17] = 3135106354.000000 (POISON)
+				[18] = 3135106354.000000 (POISON)
+				[19] = 3135106354.000000 (POISON)
+			}
+	}
+
+Stack_Errors stack_dtor(Stack*) at stack.cpp(86):
+Stack[0x7ffff628aec0] (error) "stk111" at int main() at test.cpp(9)
+-The buffer pointer (data) is a NULL-pointer
+-A wild situation with Stack: size >= capacity
+-Stack capacity is negative! (impossible value)
+-Stack size is negative! (impossible value)
+	{
+		size = -1
+		capacity = -1
+		data[0x7ffff628aec0]
+			{
+Error: Function in "test.cpp" file on (45) line returns non-zero value

@@ -5,11 +5,8 @@
 #include <assert.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <math.h>
 #include "error_detection.h"
 #include "stack.h"
-
-int is_equal (elem_type num_1, elem_type num_2);
 
 static FILE* log_file = NULL;
 
@@ -182,12 +179,12 @@ void stack_dump_func (Stack* stk, enum Stack_Errors result, const char* func, co
                 ssize_t i = 0;
                 for (; i < stk -> size; i++)
                 {
-                    fprintf (log_file, "\t\t\t\t*[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (is_equal (stk -> data[i], (elem_type) POISON)) ? "(POISON)" : "");
+                    fprintf (log_file, "\t\t\t\t*[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == (elem_type) POISON) ? "(POISON)" : "");
                     fflush (log_file);
                 }
                 for (; i < stk -> capacity; i++)
                 {
-                    fprintf (log_file, "\t\t\t\t[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (is_equal (stk -> data[i], (elem_type) POISON)) ? "(POISON)" : "");
+                    fprintf (log_file, "\t\t\t\t[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == (elem_type) POISON) ? "(POISON)" : "");
                     fflush (log_file);
                 }
             
@@ -220,12 +217,12 @@ void stack_dump_func (Stack* stk, enum Stack_Errors result, const char* func, co
                     ssize_t i = 0;
                     for (; i < stk -> size; i++)
                     {
-                        fprintf (log_file, "\t\t\t\t*[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (is_equal (stk -> data[i], (elem_type) POISON)) ? "(POISON)" : "");
+                        fprintf (log_file, "\t\t\t\t*[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == (elem_type) POISON) ? "(POISON)" : "");
                         fflush (log_file);
                     }
                     for (; i < stk -> capacity; i++)
                     {
-                        fprintf (log_file, "\t\t\t\t[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (is_equal (stk -> data[i], (elem_type) POISON)) ? "(POISON)" : "");
+                        fprintf (log_file, "\t\t\t\t[%ld] = " ELEM_FMT " %s\n", i, stk -> data[i], (stk -> data[i] == (elem_type) POISON) ? "(POISON)" : "");
                         fflush (log_file);
                     }
                 
@@ -319,11 +316,4 @@ unsigned int hash_ly (void* data, size_t n_elems, size_t elem_size)
     }
 
     return hash;
-}
-
-int is_equal (elem_type num_1, elem_type num_2)
-{
-    if (fabs(num_1 - num_2) < float_cmp_accuracy)
-        return 1;
-    return 0;
 }

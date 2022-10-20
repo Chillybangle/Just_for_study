@@ -1,0 +1,31 @@
+push 14
+push 18
+add
+out
+push [3]
+push 5
+dump
+add
+out
+hlt
+
+;dump
+;jmp :4
+;push [rax]
+;dup
+;add
+;push 7 ;хуй
+;push 3 ; хуй
+;pop rax
+;add
+;div
+;out
+;jmp
+;:4
+;push 11
+;push 20
+;add
+;out
+;dump
+;jmp :4
+;hlt
